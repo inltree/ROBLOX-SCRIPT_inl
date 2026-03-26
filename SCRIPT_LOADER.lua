@@ -34,8 +34,8 @@ local gameName = isSuccess and gameInfo.Name or "Unknown Game"
 showNotification("notify", gameName, "inltree｜"..gameName.." is loading...")
 showNotification("print", "▶️ Loading script for:", gameName, "(PlaceId: " .. game.PlaceId .. ")")
 
-local DEFAULT_SCRIPT_URL = "https://raw.githubusercontent.com/inltree/INL_LIN_ROBLOX_SCRIPT/main/Script_Tools/Player_Info.lua"
-local CONFIG_URL = "https://raw.githubusercontent.com/inltree/INL_LIN_ROBLOX_SCRIPT/main/Config/Script_Config.lua"
+local DEFAULT_SCRIPT_URL = "https://raw.githubusercontent.com/inltree/ROBLOX-SCRIPT_inl/main/Script_Tools/Player_Info.lua"
+local CONFIG_URL = "https://raw.githubusercontent.com/inltree/ROBLOX-SCRIPT_inl/main/Config/Script_Config.lua"
 
 local function loadScriptFromUrl(url)
     local success, response = pcall(function() 
