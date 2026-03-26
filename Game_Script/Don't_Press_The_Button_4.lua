@@ -2,7 +2,7 @@ if game:GetService("CoreGui"):FindFirstChild("ToraScript") then
     game:GetService("CoreGui").ToraScript:Destroy()
 end
 
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/inltree/INL_LIN_ROBLOX_SCRIPT/main/Script_UI_library/Tora_Library/Tora_Library.lua", true))()
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/inltree/ROBLOX-SCRIPT_inl/main/Script_UI_library/Tora_Library/Tora_Library.lua", true))()
 local MainWindow = Library:CreateWindow("Don't Press The Button 4")
 local ConfigWindow = Library:CreateWindow("配置面板")
 
