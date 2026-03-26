@@ -13,7 +13,7 @@ local ProximityPromptService = game:GetService("ProximityPromptService")
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 
-local Tora_Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/inltree/INL_LIN_ROBLOX_SCRIPT/main/Script_UI_library/Tora_Library/Tora_Library.lua", true))()
+local Tora_Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/inltree/ROBLOX-SCRIPT_inl/main/Script_UI_library/Tora_Library/Tora_Library.lua", true))()
 local Window_1 = Tora_Library:CreateWindow("M.E.G. Endless Reality")
 local Window_2 = Tora_Library:CreateWindow("层级功能")
 local Window_3 = Tora_Library:CreateWindow("其它功能")
@@ -195,7 +195,7 @@ end
 local Data_Cache = nil
 task.spawn(function()
     local success, result = pcall(function()
-        local response = game:HttpGet("https://raw.githubusercontent.com/inltree/INL_LIN_ROBLOX_SCRIPT/main/Game_Data/M.E.G._Endless_Reality/Data.json", true)
+        local response = game:HttpGet("https://raw.githubusercontent.com/inltree/ROBLOX-SCRIPT_inl/main/Game_Data/M.E.G._Endless_Reality/Data.json", true)
         return HttpService:JSONDecode(response)
     end)
 
