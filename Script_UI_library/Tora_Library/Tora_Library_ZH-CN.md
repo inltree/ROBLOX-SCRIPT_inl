@@ -7,7 +7,7 @@
 ### 配置库(Setup The Library)
 
 ```lua
-local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/inltree/INL_LIN_ROBLOX_SCRIPT/main/Script_UI_library/Tora_Library/Tora_Library.lua",true))()
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/inltree/ROBLOX-SCRIPT_inl/main/Script_UI_library/Tora_Library/Tora_Library.lua",true))()
 ```
 
 ### 添加标签页(Adding Tab)
