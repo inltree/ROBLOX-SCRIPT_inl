@@ -1,6 +1,6 @@
 # ROBLOX_SCRIPT
 
-> 脚本团队: [[北海团队 (BeiHai Team)]](https://www.yhchat.com/group/homepage/711682688?userId=9237086) × [[松子工作室（Song Studio）]](https://www.yhchat.com/group/homepage/905604733?userId=5377447)
+> 脚本团队: [[北海团队 (BeiHai Team)]](https://www.yhchat.com/group/homepage/711682688?userId=9237086) × [[筱菘工作室（Song Studio）]](https://www.yhchat.com/group/homepage/905604733?userId=5377447)
 >
 > 脚本作者: inltree｜Lin
 >
