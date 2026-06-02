@@ -34,6 +34,10 @@ local Config = {
     [5611648039] = {
         Name = "谋杀派对｜(Murder Party)",
         ScriptUrl = "https://raw.githubusercontent.com/inltree/ROBLOX-SCRIPT_inl/main/Game_Script/Murder_Party.lua"
+    },
+    [79268393072444] = {
+        Name = "出售柠檬｜(Sell Lemons",
+        ScriptUrl = "https://raw.githubusercontent.com/inltree/ROBLOX-SCRIPT_inl/main/Game_Script/Sell_Lemon.lua"
     }
 }
 
