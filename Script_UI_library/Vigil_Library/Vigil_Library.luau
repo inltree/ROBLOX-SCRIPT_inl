@@ -1,4 +1,4 @@
--- @ doom.dtw | 1.7
+-- @ doom.dtw | 1.7 by https://github.com/alohabeach/Main/tree/master/UI Library
 -- @ This UI uses SafeLoad V1. Will bypass most CoreGui checks. (ex: Peroxide, Da Hood)
 
 -- $ VARIABLES
