@@ -33,7 +33,7 @@
 将 `vigil.lua` 源码上传至可直链访问的位置，然后使用 `loadstring` 加载：
 
 ```lua
-local Vigil = loadstring(game:HttpGet("YOUR_RAW_VIGIL_FILE_URL"))()
+local Vigil = loadstring(game:HttpGet("https://raw.githubusercontent.com/inltree/ROBLOX-SCRIPT_inl/main/Script_UI_library/Vigil_Library/Vigil_Library.luau"))()
 ```
 
 ### 2. 创建窗口
@@ -359,7 +359,7 @@ godToggle:update({
 ## 🧪 完整示例脚本
 
 ```lua
-local Vigil = loadstring(game:HttpGet("URL"))()
+local Vigil = loadstring(game:HttpGet("https://raw.githubusercontent.com/inltree/ROBLOX-SCRIPT_inl/main/Script_UI_library/Vigil_Library/Vigil_Library.luau"))()
 
 local Window = Vigil.new("Vigil Demo", {
     Pos = UDim2.new(0.5, -300, 0.5, -263)
