@@ -5,27 +5,27 @@ local Config = {
     },
     [126884695634066] = {
         Name = "种植花园｜(Grow a Garden)",
-        ScriptUrl = "https://raw.githubusercontent.com/inltree/ROBLOX-SCRIPT_inl/main/Game_Script/Grow_a_Garden.lua"
+        ScriptUrl = "https://raw.githubusercontent.com/inltree/ROBLOX-SCRIPT_inl/main/Game_Script/Grow_a_Garden.luau"
     },
     [76455837887178] = {
         Name = "挖掘它｜(Dig it)",
-        ScriptUrl = "https://raw.githubusercontent.com/inltree/ROBLOX-SCRIPT_inl/main/Game_Script/Dig_it.lua"
+        ScriptUrl = "https://raw.githubusercontent.com/inltree/ROBLOX-SCRIPT_inl/main/Game_Script/Dig_it.luau"
     },
     [99078474560152] = {
         Name = "M.E.G.无尽现实｜(M.E.G. Endless Reality)",
-        ScriptUrl = "https://raw.githubusercontent.com/inltree/ROBLOX-SCRIPT_inl/main/Game_Script/M.E.G._Endless_Reality.lua"
+        ScriptUrl = "https://raw.githubusercontent.com/inltree/ROBLOX-SCRIPT_inl/main/Game_Script/M.E.G._Endless_Reality.luau"
     },
     [109983668079237] = {
         Name = "偷走一粒脑红｜(Steal a Brainrot)",
-        ScriptUrl = "https://raw.githubusercontent.com/inltree/ROBLOX-SCRIPT_inl/main/Game_Script/Steal_a_Brainrot.lua"
+        ScriptUrl = "https://raw.githubusercontent.com/inltree/ROBLOX-SCRIPT_inl/main/Game_Script/Steal_a_Brainrot.luau"
     },
     [96342491571673] = {
         Name = "偷走一粒脑红｜(Steal a Brainrot)",
-        ScriptUrl = "https://raw.githubusercontent.com/inltree/ROBLOX-SCRIPT_inl/main/Game_Script/Steal_a_Brainrot.lua"
+        ScriptUrl = "https://raw.githubusercontent.com/inltree/ROBLOX-SCRIPT_inl/main/Game_Script/Steal_a_Brainrot.luau"
     },
     [5171093784] = {
         Name = "不要按按钮四｜(Don't Press The Button 4)",
-        ScriptUrl = "https://raw.githubusercontent.com/inltree/ROBLOX-SCRIPT_inl/main/Game_Script/Don't_Press_The_Button_4.lua"
+        ScriptUrl = "https://raw.githubusercontent.com/inltree/ROBLOX-SCRIPT_inl/main/Game_Script/Don't_Press_The_Button_4.luau"
     },
     [189707] = {
         Name = "自然灾害生存｜(Natural Disaster Survival)",
@@ -33,11 +33,11 @@ local Config = {
     },
     [5611648039] = {
         Name = "谋杀派对｜(Murder Party)",
-        ScriptUrl = "https://raw.githubusercontent.com/inltree/ROBLOX-SCRIPT_inl/main/Game_Script/Murder_Party.lua"
+        ScriptUrl = "https://raw.githubusercontent.com/inltree/ROBLOX-SCRIPT_inl/main/Game_Script/Murder_Party.luau"
     },
     [79268393072444] = {
         Name = "出售柠檬｜(Sell Lemons",
-        ScriptUrl = "https://raw.githubusercontent.com/inltree/ROBLOX-SCRIPT_inl/main/Game_Script/Sell_Lemon.lua"
+        ScriptUrl = "https://raw.githubusercontent.com/inltree/ROBLOX-SCRIPT_inl/main/Game_Script/Sell_Lemon.luau"
     }
 }
 

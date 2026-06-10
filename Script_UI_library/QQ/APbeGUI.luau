@@ -1,4 +1,4 @@
--- APbeGUI.lua - 改进版Roblox UI库
+-- APbeGUI.luau - 改进版Roblox UI库
 -- 版本: 5.0
 -- 提供科技感十足的Roblox UI组件，优化了拖动功能，支持长按拖动和无限制范围拖动
 -- 同时优化了自定义性和调用复杂性

@@ -9,7 +9,7 @@ if game:GetService("CoreGui"):FindFirstChild("TycoonAutoUI") then
 end
 
 --// 加载库
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/inltree/ROBLOX-SCRIPT_inl/main/Script_UI_library/Tora_Library/Tora_Library.lua", true))()
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/inltree/ROBLOX-SCRIPT_inl/main/Script_UI_Library/Tora_Library/Tora_Library.luau", true))()
 
 --// 创建主窗口
 local MainWindow = Library:CreateWindow("Sell Lemon")

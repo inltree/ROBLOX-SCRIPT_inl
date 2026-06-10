@@ -3,7 +3,7 @@
 First, you need to load the library
 
 ```lua
-local NotificationLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/inltree/ROBLOX-SCRIPT_inl/main/Script_UI_library/Notification_Library/Notification_Library.luau"))()
+local NotificationLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/inltree/ROBLOX-SCRIPT_inl/main/Script_UI_Library/Notification_Library/Notification_Library.luau"))()
 ```
 
 Then you can use the `SendNotification` function to send a notification.

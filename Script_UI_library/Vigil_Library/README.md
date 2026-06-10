@@ -30,10 +30,10 @@
 
 ### 1. Loading the Library
 
-Upload the `vigil.lua` source to a direct-link accessible location, then load it using `loadstring`:
+Upload the `vigil.luau` source to a direct-link accessible location, then load it using `loadstring`:
 
 ```lua
-local Vigil = loadstring(game:HttpGet("https://raw.githubusercontent.com/inltree/ROBLOX-SCRIPT_inl/main/Script_UI_library/Vigil_Library/Vigil_Library.luau"))()
+local Vigil = loadstring(game:HttpGet("https://raw.githubusercontent.com/inltree/ROBLOX-SCRIPT_inl/main/Script_UI_Library/Vigil_Library/Vigil_Library.luau"))()
 ```
 
 ### 2. Creating a Window
@@ -359,7 +359,7 @@ Component colors are hardcoded. To change them, search for `Color3.fromRGB` in t
 ## 🧪 Complete Example Script
 
 ```lua
-local Vigil = loadstring(game:HttpGet("https://raw.githubusercontent.com/inltree/ROBLOX-SCRIPT_inl/main/Script_UI_library/Vigil_Library/Vigil_Library.luau"))()
+local Vigil = loadstring(game:HttpGet("https://raw.githubusercontent.com/inltree/ROBLOX-SCRIPT_inl/main/Script_UI_Library/Vigil_Library/Vigil_Library.luau"))()
 
 local Window = Vigil.new("Vigil Demo", {
     Pos = UDim2.new(0.5, -300, 0.5, -263)

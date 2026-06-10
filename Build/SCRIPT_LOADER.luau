@@ -4,8 +4,8 @@ local ok, info = pcall(function() return MarketplaceService:GetProductInfo(game.
 local gameName = ok and info.Name or "Unknown Game"
 pcall(function() StarterGui:SetCore("SendNotification", {Title = gameName, Text = "inltree｜"..gameName.." Script Loading...｜加载中...", Duration = 3}) end)
 
-local DEFAULT_SCRIPT_URL = "https://raw.githubusercontent.com/inltree/INL_LIN_ROBLOX_SCRIPT/main/Script_Tools/Player_Info.lua"
-local CONFIG_URL = "https://raw.githubusercontent.com/inltree/INL_LIN_ROBLOX_SCRIPT/main/Config/Game_Config.lua"
+local DEFAULT_SCRIPT_URL = "https://raw.githubusercontent.com/inltree/INL_LIN_ROBLOX_SCRIPT/main/Script_Tools/Player_Info.luau"
+local CONFIG_URL = "https://raw.githubusercontent.com/inltree/INL_LIN_ROBLOX_SCRIPT/main/Config/Game_Config.luau"
 
 local function loadScript(url) return pcall(function() loadstring(game:HttpGet(url))() end) end
 

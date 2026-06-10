@@ -13,7 +13,7 @@ local ProximityPromptService = game:GetService("ProximityPromptService")
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 
-local Tora_Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/inltree/ROBLOX-SCRIPT_inl/main/Script_UI_library/Tora_Library/Tora_Library.lua", true))()
+local Tora_Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/inltree/ROBLOX-SCRIPT_inl/main/Script_UI_Library/Tora_Library/Tora_Library.luau", true))()
 local Window_1 = Tora_Library:CreateWindow("M.E.G. Endless Reality")
 local Window_2 = Tora_Library:CreateWindow("层级功能")
 local Window_3 = Tora_Library:CreateWindow("其它功能")
