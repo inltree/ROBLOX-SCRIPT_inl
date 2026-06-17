@@ -2,6 +2,7 @@
     Ink Wind GUI Library - MD3 Edition
     Author: Ink Wind
     License: MIT License
+    
     采用 Material Design 3 (Material You) 设计规范:
     - 大圆角 (12dp / 16dp / 28dp)
     - 状态层 (State Layer) - 悬停/按下状态
@@ -372,15 +373,25 @@ function RegisterObject(obj, type)
     elseif type == "ButtonActive" then
         obj.BackgroundColor3 = theme.PrimaryContainer
     elseif type == "Text" then
-        obj.TextColor3 = theme.OnSurface
+        if obj:IsA("TextLabel") or obj:IsA("TextButton") or obj:IsA("TextBox") then
+            obj.TextColor3 = theme.OnSurface
+        end
     elseif type == "TextVariant" then
-        obj.TextColor3 = theme.OnSurfaceVariant
+        if obj:IsA("TextLabel") or obj:IsA("TextButton") or obj:IsA("TextBox") then
+            obj.TextColor3 = theme.OnSurfaceVariant
+        end
     elseif type == "TextPrimary" then
-        obj.TextColor3 = theme.Primary
+        if obj:IsA("TextLabel") or obj:IsA("TextButton") or obj:IsA("TextBox") then
+            obj.TextColor3 = theme.Primary
+        end
     elseif type == "OnPrimary" then
-        obj.TextColor3 = theme.OnPrimary
+        if obj:IsA("TextLabel") or obj:IsA("TextButton") or obj:IsA("TextBox") then
+            obj.TextColor3 = theme.Primary
+        end
     elseif type == "OnPrimaryContainer" then
-        obj.TextColor3 = theme.OnPrimaryContainer
+        if obj:IsA("TextLabel") or obj:IsA("TextButton") or obj:IsA("TextBox") then
+            obj.TextColor3 = theme.Primary
+        end
     elseif type == "Container" then
         obj.BackgroundColor3 = theme.SurfaceContainer
     elseif type == "ContainerLow" then
@@ -956,6 +967,14 @@ end)
 -- ============================================================
 -- 窗口系统
 -- ============================================================
+local function ClampWindowPosition(mainFrame)
+    local screenSize = Camera.ViewportSize
+    local frameSize = mainFrame.AbsoluteSize
+    local x = math.clamp(mainFrame.Position.X.Offset, 0, screenSize.X - frameSize.X)
+    local y = math.clamp(mainFrame.Position.Y.Offset, 0, screenSize.Y - frameSize.Y)
+    mainFrame.Position = UDim2.new(0, x, 0, y)
+end
+
 function Library:CreateWindow(title, pos, isMain, isSub)
     local Window = {}
     local isFolded = false
@@ -976,6 +995,8 @@ function Library:CreateWindow(title, pos, isMain, isSub)
     Main.ClipsDescendants = true
     RegisterObject(Main, "Window")
     RegisterStyle(Main, false, 16)
+
+    ClampWindowPosition(Main)
 
     local Scale = Instance.new("UIScale")
     Scale.Parent = Main
@@ -1147,12 +1168,15 @@ function Library:CreateWindow(title, pos, isMain, isSub)
     UserInputService.InputChanged:Connect(function(input)
         if isDragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
             local delta = Vector2.new(input.Position.X, input.Position.Y) - dragStart
-            Main.Position = UDim2.new(
-                startPos.X.Scale,
-                startPos.X.Offset + delta.X,
-                startPos.Y.Scale,
-                startPos.Y.Offset + delta.Y
-            )
+            local newX = startPos.X.Offset + delta.X
+            local newY = startPos.Y.Offset + delta.Y
+            
+            local screenSize = Camera.ViewportSize
+            local frameSize = Main.AbsoluteSize
+            newX = math.clamp(newX, 0, screenSize.X - frameSize.X)
+            newY = math.clamp(newY, 0, screenSize.Y - frameSize.Y)
+            
+            Main.Position = UDim2.new(0, newX, 0, newY)
         end
     end)
 
@@ -1191,7 +1215,8 @@ function Library:CreateWindow(title, pos, isMain, isSub)
         Btn.Parent = Container
         Btn.BackgroundColor3 = CurrentThemeData.PrimaryContainer
         Btn.BackgroundTransparency = 0
-        Btn.Size = UDim2.new(1, 0, 0, H)
+        Btn.Size = UDim2.new(1, -16, 0, H)
+        Btn.Position = UDim2.new(0, 8, 0, 0)
         Btn.Text = ""
         Btn.BorderSizePixel = 0
         Btn.AutoButtonColor = false
@@ -1207,7 +1232,7 @@ function Library:CreateWindow(title, pos, isMain, isSub)
         Icon.Font = Enum.Font.GothamBold
         Icon.TextSize = 14
         Icon.Size = UDim2.new(0, 24, 0, 24)
-        Icon.Position = UDim2.new(0, 10, 0.5, 0)
+        Icon.Position = UDim2.new(0, 12, 0.5, 0)
         Icon.AnchorPoint = Vector2.new(0, 0.5)
         Icon.BackgroundTransparency = 1
         Icon.TextXAlignment = Enum.TextXAlignment.Center
@@ -1258,7 +1283,8 @@ function Library:CreateWindow(title, pos, isMain, isSub)
         local Btn = Instance.new("TextButton")
         Btn.Parent = Container
         Btn.BackgroundTransparency = 1
-        Btn.Size = UDim2.new(1, 0, 0, H)
+        Btn.Size = UDim2.new(1, -16, 0, H)
+        Btn.Position = UDim2.new(0, 8, 0, 0)
         Btn.Text = ""
         Btn.BorderSizePixel = 0
         Btn.AutoButtonColor = false
@@ -1820,12 +1846,17 @@ function Library:CreateWindow(title, pos, isMain, isSub)
             Arrow.ZIndex = MainBtn.ZIndex + 2
             RegisterObject(Arrow, "TextPrimary")
 
-            local OptionsFrame = Instance.new("Frame")
+            local OptionsFrame = Instance.new("ScrollingFrame")
             OptionsFrame.Parent = Base
             OptionsFrame.Position = UDim2.new(0, 0, 0, H + 2)
             OptionsFrame.Size = UDim2.new(1, 0, 0, 0)
             OptionsFrame.BackgroundTransparency = 1
             OptionsFrame.BorderSizePixel = 0
+            OptionsFrame.ScrollBarThickness = 2
+            OptionsFrame.ScrollBarImageTransparency = 0.5
+            OptionsFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
+            OptionsFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+            OptionsFrame.ScrollingEnabled = false
 
             local OptList = Instance.new("UIListLayout")
             OptList.Parent = OptionsFrame
@@ -1891,10 +1922,16 @@ function Library:CreateWindow(title, pos, isMain, isSub)
             MainBtn.MouseButton1Click:Connect(function()
                 isOpen = not isOpen
                 local optionHeight = #opts * 30 + 4
-                local newH = isOpen and (H + optionHeight) or H
+                local maxDropdownHeight = 150
+                local actualOptionHeight = math.min(optionHeight, maxDropdownHeight)
+                local newH = isOpen and (H + actualOptionHeight) or H
                 TweenService:Create(Base, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
                     Size = UDim2.new(1, 0, 0, newH)
                 }):Play()
+                TweenService:Create(OptionsFrame, TweenInfo.new(0.25), {
+                    Size = UDim2.new(1, 0, 0, isOpen and actualOptionHeight or 0)
+                }):Play()
+                OptionsFrame.ScrollingEnabled = isOpen and (optionHeight > maxDropdownHeight)
                 TweenService:Create(Arrow, TweenInfo.new(0.2), {
                     Rotation = isOpen and 180 or 0
                 }):Play()
@@ -2509,7 +2546,7 @@ function Library:SetupSettings()
         Library:RefreshDimensions()
     end)
  
-    ThemeMod:CreateSlider("整体缩放", 50, 150, math.floor(Library.Config.UIScale * 100), function(v)
+    ThemeMod:CreateSlider("高度调整(%)", 50, 150, math.floor(Library.Config.UIScale * 100), function(v)
         Library.Config.UIScale = v / 100
         Library:RefreshDimensions()
     end)
