@@ -396,14 +396,16 @@ function RegisterObject(obj, type)
     elseif type == "TertiaryContainer" then
         obj.BackgroundColor3 = theme.TertiaryContainer
     elseif type == "Outline" then
-        obj.BackgroundColor3 = theme.Outline
         if obj:IsA("UIStroke") then
             obj.Color = theme.Outline
+        else
+            obj.BackgroundColor3 = theme.Outline
         end
     elseif type == "OutlineVariant" then
-        obj.BackgroundColor3 = theme.OutlineVariant
         if obj:IsA("UIStroke") then
             obj.Color = theme.OutlineVariant
+        else
+            obj.BackgroundColor3 = theme.OutlineVariant
         end
     elseif type == "Stroke" then
         if obj:IsA("UIStroke") then
