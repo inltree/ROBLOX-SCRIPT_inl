@@ -1,0 +1,216 @@
+if shared.CherryBlossomActiveSession then
+    pcall(function() shared.CherryBlossomActiveSession() end)
+end
+
+local CherryBlossom = {}
+CherryBlossom.__index = CherryBlossom
+
+function CherryBlossom.new()
+    local self = setmetatable({}, CherryBlossom)
+    
+    self.Lighting = game:GetService("Lighting")
+    self.Workspace = game:GetService("Workspace")
+    self.TweenService = game:GetService("TweenService")
+    self.LocalPlayer = game:GetService("Players").LocalPlayer
+    
+    self.Config = {
+        MaxParticles = 11000,        -- 粒子池最大容量
+        SpawnInterval = 0.015,      -- 发射生成间隔(秒)
+        Radius = 320,               -- 生成范围半径
+        WindX = -12,                -- X轴风向速度
+        WindY = -15,                -- Y轴下落速度
+        WindZ = 8,                  -- Z轴风向速度
+        TextureID = "rbxassetid://7456123890",
+        NeonRatio = 0.4            -- 霓虹发光粒子占比 (0 ~ 1)
+    }
+    
+    self.Pool = {}
+    self.PoolIndex = 1
+    self.Folder = nil
+    self.IsRunning = false
+    
+    return self
+end
+
+function CherryBlossom:ClearSession()
+    pcall(function()
+        local oldFolder = self.Workspace:FindFirstChild("CherryBlossom_Layer")
+        if oldFolder then oldFolder:Destroy() end
+    end)
+    for _, fx in ipairs(self.Lighting:GetChildren()) do
+        if fx.Name:find("BlossomFX_") then 
+            pcall(function() fx:Destroy() end) 
+        end
+    end
+end
+
+function CherryBlossom:ApplyLightingPipeline()
+    pcall(function()
+        settings().Rendering.QualityLevel = Enum.QualityLevel.Level21
+        self.Lighting.Technology = Enum.Technology.Future
+        self.Lighting.ShadowMapEnabled = true
+        self.Lighting.GlobalShadows = true
+        self.Lighting.EnvironmentDiffuseScale = 0.55  
+        self.Lighting.EnvironmentSpecularScale = 0.55 
+    end)
+
+    self.Lighting.ClockTime = 20.6                
+    self.Lighting.Brightness = 1.2               
+    self.Lighting.Ambient = Color3.fromRGB(55, 45, 55)        
+    self.Lighting.OutdoorAmbient = Color3.fromRGB(75, 65, 85) 
+    
+    local atmosphere = self.Lighting:FindFirstChildOfClass("Atmosphere") or Instance.new("Atmosphere", self.Lighting)
+    atmosphere.Density = 0.38               
+    atmosphere.Haze = 2.0                   
+    atmosphere.Color = Color3.fromRGB(255, 180, 195)      
+    atmosphere.Decay = Color3.fromRGB(80, 40, 55)         
+    atmosphere.Glare = 0.15
+
+    local colorCorrection = Instance.new("ColorCorrectionEffect")
+    colorCorrection.Name = "BlossomFX_Color"
+    colorCorrection.Brightness = 0.02; colorCorrection.Contrast = 0.12; colorCorrection.Saturation = 0.25       
+    colorCorrection.TintColor = Color3.fromRGB(255, 240, 245) 
+    colorCorrection.Parent = self.Lighting
+
+    local bloom = Instance.new("BloomEffect")
+    bloom.Name = "BlossomFX_Bloom"
+    bloom.Intensity = 0.45; bloom.Size = 16; bloom.Threshold = 0.85                  
+    bloom.Parent = self.Lighting
+
+    local sunRays = self.Lighting:FindFirstChildOfClass("SunRaysEffect")
+    if sunRays then pcall(function() sunRays:Destroy() end) end
+end
+
+function CherryBlossom:InitializeParticlePool()
+    self.Folder = Instance.new("Folder")
+    self.Folder.Name = "CherryBlossom_Layer"
+    self.Folder.Parent = self.Workspace
+
+    for i = 1, self.Config.MaxParticles do
+        local petal = Instance.new("Part")
+        petal.Size = Vector3.new(1, 1, 1)
+        petal.CanCollide = false; petal.CanTouch = false; petal.CanQuery = false
+        petal.Anchored = true; petal.CastShadow = false; petal.Transparency = 1
+        petal.Position = Vector3.new(0, 9999, 0)
+        petal.Parent = self.Folder
+
+        local isNeon = math.random() < self.Config.NeonRatio
+        petal.Material = isNeon and Enum.Material.Neon or Enum.Material.SmoothPlastic
+        petal.Color = isNeon and Color3.fromRGB(255, 200, 225) or Color3.fromRGB(235, 205, 215)
+
+        local mesh = Instance.new("SpecialMesh")
+        mesh.MeshType = Enum.MeshType.Sphere
+        local length = math.random(4, 8) / 10  
+        mesh.Scale = Vector3.new(length * 0.65, 0.02, length) 
+        mesh.Parent = petal
+
+        local decal = Instance.new("Decal")
+        decal.Texture = self.Config.TextureID
+        decal.Face = Enum.NormalId.Top
+        decal.Transparency = isNeon and 0.4 or 0.05
+        decal.Parent = petal
+        decal:Clone().Face = Enum.NormalId.Bottom
+        decal:Clone().Parent = petal
+        
+        self.Pool[i] = {
+            Part = petal,
+            TweenMove = nil,
+            TweenFade = nil,
+            IsNeon = isNeon
+        }
+    end
+end
+
+function CherryBlossom:EmitPetal(playerRoot)
+    if not playerRoot or not self.IsRunning then return end
+    
+    local slot = self.Pool[self.PoolIndex]
+    self.PoolIndex = (self.PoolIndex % self.Config.MaxParticles) + 1
+    
+    if slot.TweenMove then pcall(function() slot.TweenMove:Cancel() end) end
+    if slot.TweenFade then pcall(function() slot.TweenFade:Cancel() end) end
+    
+    local petal = slot.Part
+    local rad = self.Config.Radius
+    
+    -- 基础生成高度范围 (单位/10)
+    local startPos = playerRoot.Position + Vector3.new(
+        math.random(-rad * 10, rad * 10) / 10,
+        math.random(200, 600) / 10, 
+        math.random(-rad * 10, rad * 10) / 10
+    )
+    
+    -- 随机飘落时间周期 (单位/10)
+    local duration = math.random(45, 80) / 10 
+    local endPos = startPos + Vector3.new(
+        self.Config.WindX * 1.5 + math.random(-120, 120) / 10,
+        self.Config.WindY - math.random(50, 150) / 10,
+        self.Config.WindZ * 1.5 + math.random(-120, 120) / 10
+    )
+
+    petal.Position = startPos
+    petal.CFrame = CFrame.new(startPos) * CFrame.Angles(math.rad(math.random(0, 360)), math.rad(math.random(0, 360)), math.rad(math.random(0, 360)))
+    petal.Transparency = 1
+    
+    local targetTransparency = slot.IsNeon and 0.1 or math.random(5, 20) / 100
+    slot.TweenFade = self.TweenService:Create(petal, TweenInfo.new(0.6, Enum.EasingStyle.Sine), {Transparency = targetTransparency})
+    slot.TweenMove = self.TweenService:Create(petal, TweenInfo.new(duration, Enum.EasingStyle.Linear), {
+        CFrame = CFrame.new(endPos) * CFrame.Angles(math.rad(math.random(360, 1080)), math.rad(math.random(180, 720)), math.rad(math.random(360, 1080)))
+    })
+    
+    slot.TweenFade:Play()
+    slot.TweenMove:Play()
+
+    task.delay(duration - 0.6, function()
+        if self.IsRunning and petal and petal.Parent then
+            pcall(function() self.TweenService:Create(petal, TweenInfo.new(0.6, Enum.EasingStyle.Sine), {Transparency = 1}):Play() end)
+        end
+    end)
+    
+    task.delay(duration, function()
+        if petal and petal.Parent then
+            petal.Transparency = 1
+            petal.Position = Vector3.new(0, 9999, 0)
+        end
+    end)
+end
+
+function CherryBlossom:Start()
+    self:ClearSession()
+    self:ApplyLightingPipeline()
+    self:InitializeParticlePool()
+    
+    self.IsRunning = true
+    
+    task.spawn(function()
+        while self.IsRunning do
+            local char = self.LocalPlayer.Character
+            local root = char and char:FindFirstChild("HumanoidRootPart")
+            
+            if root then
+                for _ = 1, 40 do -- 单次循环高频发射量
+                    if not self.IsRunning then break end
+                    self:EmitPetal(root) 
+                end
+            end
+            task.wait(self.Config.SpawnInterval)
+        end
+    end)
+end
+
+function CherryBlossom:Destroy()
+    self.IsRunning = false
+    for _, slot in ipairs(self.Pool) do
+        if slot.TweenMove then pcall(function() slot.TweenMove:Cancel() end) end
+        if slot.TweenFade then pcall(function() slot.TweenFade:Cancel() end) end
+    end
+    self:ClearSession()
+    self.Pool = {}
+end
+
+local InstanceEngine = CherryBlossom.new()
+InstanceEngine:Start()
+
+shared.CherryBlossomActiveSession = function()
+    InstanceEngine:Destroy()
+end
